@@ -61,19 +61,27 @@ public class Loginpage_failure_Snap {
 
 	@Test(priority = 2)
 	void loginsubmit() throws InterruptedException, IOException {
-		driver.findElement(By.cssSelector(properties.getProperty("usernamecss"))).sendKeys(properties.getProperty("name"));
-		driver.findElement(By.cssSelector(properties.getProperty("passwordcss"))).sendKeys(properties.getProperty("password"));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		WebElement elements = null;
+		driver.findElement(By.cssSelector(properties.getProperty("usernamecss")))
+				.sendKeys(properties.getProperty("name"));
+		driver.findElement(By.cssSelector(properties.getProperty("passwordcss")))
+				.sendKeys(properties.getProperty("password"));
 		driver.findElement(By.xpath(properties.getProperty("usercheckbox"))).click();
-		Thread.sleep(2000);
-		driver.findElement(By.xpath(properties.getProperty("dropdownxpath"))).click();
+		elements = wait.until(ExpectedConditions
+				.elementToBeClickable(driver.findElement(By.xpath(properties.getProperty("dropdownxpath")))));
+		elements.click();
+
 		Select option = new Select(driver.findElement(By.xpath(properties.getProperty("selectxpath"))));
 		option.selectByValue(properties.getProperty("studentvalue"));
 		driver.findElement(By.xpath(properties.getProperty("agreeboxxpath"))).click();
-		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(20));
-		WebElement elements= null;
-		elements = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(properties.getProperty("signinbuttonxpath")))));
+
+		elements = wait.until(ExpectedConditions
+				.elementToBeClickable(driver.findElement(By.xpath(properties.getProperty("signinbuttonxpath")))));
 		elements.click();
-		elements = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(properties.getProperty("alertxpath")))));
+		elements = wait.until(ExpectedConditions
+				.elementToBeClickable(driver.findElement(By.xpath(properties.getProperty("alertxpath")))));
+		System.out.println(elements.getText());
 		elements.click();
 		String getUserDirectory = System.getProperty("user.dir");
 		String path = getUserDirectory + File.separator + "Picture" + File.separator + "Error.png";
